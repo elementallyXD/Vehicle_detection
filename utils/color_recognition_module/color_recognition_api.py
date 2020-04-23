@@ -1,4 +1,3 @@
-
 from utils.color_recognition_module import color_histogram_feature_extraction
 from utils.color_recognition_module import knn_classifier
 import os
@@ -8,7 +7,6 @@ current_path = os.getcwd()
 
 
 def color_recognition(crop_img):
-
     (height, width, channels) = crop_img.shape
     # crop the detected vehicle image and get a image piece from center of it both for debugging and sending
     # that image piece to color recognition module
@@ -20,8 +18,8 @@ def color_recognition(crop_img):
     # send image piece to regonize vehicle color
     color_histogram_feature_extraction.color_histogram_of_test_image(crop_img)
     prediction = knn_classifier.main(current_path
-            + '/utils/color_recognition_module/' + 'training.data',
-            current_path + '/utils/color_recognition_module/'
-            + 'test.data')
+                                     + '/utils/color_recognition_module/' + 'training.data',
+                                     current_path + '/utils/color_recognition_module/'
+                                     + 'test.data')
 
     return prediction

@@ -22,7 +22,6 @@ import os
 
 # image utils - image saver import
 from utils.image_utils import image_saver
-
 #  predicted_speed predicted_color module - import
 from utils.speed_and_direction_prediction_module import speed_prediction
 
@@ -179,17 +178,17 @@ def draw_bounding_box_on_image(current_frame_number, image,
 
     # if the vehicle get in ROI area, vehicle predicted_speed predicted_color algorithms are
     # called - 200 is an arbitrary value, for my case it looks very well to set position of ROI line at y pixel 200
-    if (
-            bottom > ROI_POSITION):
-        predicted_direction, predicted_speed, is_vehicle_detected, update_csv = speed_prediction.predict_speed(top,
-                                                                                                               bottom,
-                                                                                                               right,
-                                                                                                               left,
-                                                                                                               current_frame_number,
-                                                                                                               detected_vehicle_image,
-                                                                                                               ROI_POSITION)
-
-    predicted_color = color_recognition_api.color_recognition(detected_vehicle_image)
+    # if (
+    #         bottom > ROI_POSITION):
+    #     predicted_direction, predicted_speed, is_vehicle_detected, update_csv = speed_prediction.predict_speed(top,
+    #                                                                                                            bottom,
+    #                                                                                                            right,
+    #                                                                                                            left,
+    #                                                                                                            current_frame_number,
+    #                                                                                                            detected_vehicle_image,
+    #                                                                                                            ROI_POSITION)
+    #
+    # predicted_color = color_recognition_api.color_recognition(detected_vehicle_image)
 
     try:
         font = ImageFont.truetype('arial.ttf', 16)
@@ -199,8 +198,8 @@ def draw_bounding_box_on_image(current_frame_number, image,
     # If the total height of the display strings added to the top of the bounding
     # box exceeds the top of the image, stack the strings below the bounding box
     # instead of above.
-    display_str_list[0] = predicted_color + " " + display_str_list[0]
-    csv_line = predicted_color + "," + str(predicted_direction) + "," + str(predicted_speed)  # csv line created
+    # display_str_list[0] = predicted_color + " " + display_str_list[0]
+    # csv_line = predicted_color + "," + str(predicted_direction) + "," + str(predicted_speed)  # csv line created
     display_str_heights = [font.getsize(ds)[1] for ds in display_str_list]
 
     # Each display_str has a top and bottom margin of 0.05x.
@@ -512,7 +511,7 @@ def visualize_boxes_and_labels_on_image_array(current_frame_number, image,
 
         display_str_list = box_to_display_str_map[box]
         # we are interested just vehicles (i.e. cars and trucks)
-        if (("car" in display_str_list[0]) or ("truck" in display_str_list[0]) or ("bus" in display_str_list[0])):
+        if ("car" in display_str_list[0]) or ("truck" in display_str_list[0]) or ("bus" in display_str_list[0]):
             is_vehicle_detected, csv_line, update_csv = draw_bounding_box_on_image_array(current_frame_number,
                                                                                          image,
                                                                                          ymin,
@@ -533,11 +532,11 @@ def visualize_boxes_and_labels_on_image_array(current_frame_number, image,
                     radius=line_thickness / 2,
                     use_normalized_coordinates=use_normalized_coordinates)
 
-    if (1 in is_vehicle_detected):
+    if 1 in is_vehicle_detected:
         counter = 1
         del is_vehicle_detected[:]
         is_vehicle_detected = []
-        if (class_name == "boat"):
+        if class_name == "boat":
             class_name = "truck"
         csv_line_util = class_name + "," + csv_line
 
