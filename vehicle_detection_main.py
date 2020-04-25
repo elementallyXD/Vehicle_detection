@@ -43,16 +43,16 @@ PATH_TO_LABELS = os.path.join('data', 'mscoco_label_map.pbtxt')
 NUM_CLASSES = 90
 
 # Download Model
-# uncomment if you have not download the model yet
-if not os.path.exists(os.path.join(os.getcwd(), MODEL_FILE)):
-    print("Downloading model")
-    opener = urllib.request.URLopener()
-    opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
-    tar_file = tarfile.open(MODEL_FILE)
-    for file in tar_file.getmembers():
-        file_name = os.path.basename(file.name)
-        if 'frozen_inference_graph.pb' in file_name:
-            tar_file.extract(file, os.getcwd())
+# # uncomment if you have not download the model yet
+# if not os.path.exists(os.path.join(os.getcwd(), MODEL_FILE)):
+#     print("Downloading model")
+#     opener = urllib.request.URLopener()
+#     opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
+#     tar_file = tarfile.open(MODEL_FILE)
+#     for file in tar_file.getmembers():
+#         file_name = os.path.basename(file.name)
+#         if 'frozen_inference_graph.pb' in file_name:
+#             tar_file.extract(file, os.getcwd())
 
 # Load a (frozen) Tensorflow model into memory.
 detection_graph = tf.Graph()
@@ -87,7 +87,7 @@ with open('traffic_measurement.csv', 'w') as f:
     writer.writerows([csv_line.split(',')])
 
 # input video
-cap = cv2.VideoCapture('vid-2.mp4')
+cap = cv2.VideoCapture('vid-4.mp4')
 
 # Variables
 total_passed_vehicle = 0  # using it to count vehicles
