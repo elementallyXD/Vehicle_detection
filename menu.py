@@ -9,20 +9,22 @@ from CarsDataset.tf_oda_stanford_cars import predict_image as pi
 class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
+        # creating button panel
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.open_file = tk.Button(self)
+        self.open_file = tk.Button(self, text="Open File", command=self.detection_add_file)
         self.label = tk.Label(self, text="Choose your file",
                               fg="white",
                               bg="black",
                               font="Helvetica 11 bold italic")
 
-        # self.img = ImageTk.PhotoImage(Image.open("E:/NTUU/Py/Vehicle_detection/CarsDataset/car_ims/def.jpg"))
+        # creating canvas for reflection file
         self.canvas = tk.Canvas(self, relief=SUNKEN, bg='white',
                                 width=1280,
                                 height=720)
         self.canvas.config(highlightthickness=0)
 
+        # creating scrollbar for canvas
         self.xscrollbar = Scrollbar(self, orient=HORIZONTAL)
         self.xscrollbar.config(command=self.canvas.xview)
         self.yscrollbar = Scrollbar(self)
@@ -44,12 +46,9 @@ class Application(tk.Frame):
         self.yscrollbar.pack(side="right", fill=Y)
         self.canvas.pack(side="top", expand=1, fill=BOTH)
 
-        self.open_file["text"] = "Open File"
-        self.open_file["command"] = self.detection_add_file
-
     def detection_add_file(self):
         self.label["text"] = "Computing... Wait a few minutes."
-        filename = filedialog.askopenfilename(initialdir="/NTUU/Py/Vehicle_detection/CarsDataset/car_ims/car_ims",
+        filename = filedialog.askopenfilename(initialdir="/NTUU/Py/Vehicle_detection/CarsDataset/car_ims",
                                               title="Select File",
                                               filetypes=(('image files', '.jpg'),
                                                          ('image files', '.png'),
@@ -61,14 +60,15 @@ class Application(tk.Frame):
             self.detection_open_file(filename)
 
     def detection_open_file(self, filename):
+        # getting result from image detection
         result = pi.main(filename)
         self.label["text"] = result
 
+        # showing detected car
         basename = os.path.basename(filename)
         photo = Image.open("E:/NTUU/Py/Vehicle_detection/detected_vehicles/" + basename)
         img = ImageTk.PhotoImage(photo)
         self.canvas.create_image(0, 0, anchor=NW, image=img)
-
         width, height = photo.size
         self.canvas.config(scrollregion=(0, 0, width, height))
         self.canvas.image = img
