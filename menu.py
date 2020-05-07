@@ -61,17 +61,19 @@ class Application(tk.Frame):
 
     def detection_open_file(self, filename):
         # getting result from image detection
-        result = pi.main(filename)
-        self.label["text"] = result
+        if os.path.splitext(filename)[1] == '.jpg' or '.png':
+            result = pi.main(filename)
+            if result:
+                self.label["text"] = result
 
-        # showing detected car
-        basename = os.path.basename(filename)
-        photo = Image.open("E:/NTUU/Py/Vehicle_detection/detected_vehicles/" + basename)
-        img = ImageTk.PhotoImage(photo)
-        self.canvas.create_image(0, 0, anchor=NW, image=img)
-        width, height = photo.size
-        self.canvas.config(scrollregion=(0, 0, width, height))
-        self.canvas.image = img
+                # showing detected car
+                basename = os.path.basename(filename)
+                photo = Image.open("E:/NTUU/Py/Vehicle_detection/detected_vehicles/" + basename)
+                width, height = photo.size
+                img = ImageTk.PhotoImage(photo)
+                self.canvas.create_image(0, 0, anchor=NW, image=img)
+                self.canvas.config(scrollregion=(0, 0, width, height))
+                self.canvas.image = img
 
 
 root = tk.Tk()
